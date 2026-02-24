@@ -1,0 +1,144 @@
+// =============================================================================
+// 全局变量定义 (Global Variables)
+// =============================================================================
+
+// =========================
+// 颜色变量 (Color Variables)
+// =========================
+@primary-color: #1677ff;        // 主色调 (蓝色)
+@primary-color-light: #4080ff;   // 主色调浅色
+@primary-color-dark: #0958d9;    // 主色调深色
+
+@success-color: #52c41a;        // 成功色 (绿色)
+@warning-color: #faad14;        // 警告色 (黄色)
+@error-color: #ff4d4f;          // 错误色 (红色)
+@info-color: #1890ff;           // 信息色 (蓝色)
+
+@gray-1: #ffffff;               // 白色
+@gray-2: #fafafa;               // 超浅灰
+@gray-3: #f5f5f5;               // 浅灰 (背景色)
+@gray-4: #e8e8e8;               // 浅灰 (边框色)
+@gray-5: #d9d9d9;               // 中浅灰
+@gray-6: #bfbfbf;               // 中灰
+@gray-7: #8c8c8c;               // 中深灰
+@gray-8: #595959;               // 深灰
+@gray-9: #434343;               // 更深灰
+@gray-10: #262626;              // 超深灰
+@gray-11: #1f1f1f;              // 近黑色
+@gray-12: #141414;              // 黑色
+
+// 文本颜色
+@text-color: @gray-10;          // 主要文本色
+@text-color-secondary: @gray-7; // 次要文本色
+@text-color-disabled: @gray-6;  // 禁用文本色
+@text-color-inverse: @gray-1;   // 反色文本
+
+// 背景颜色
+@bg-color: #ffffff;             // 页面背景
+@bg-color-light: #fafafa;       // 浅色背景
+@bg-color-dark: #f5f5f5;        // 深色背景
+
+// =========================
+// 字体变量 (Typography Variables)
+// =========================
+@font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+@font-family-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+
+@font-size-xs: 10px;            // 超小字体
+@font-size-sm: 12px;            // 小字体
+@font-size-base: 14px;          // 基础字体 (移动端常用)
+@font-size-lg: 16px;            // 大字体
+@font-size-xl: 18px;            // 超大字体
+@font-size-xxl: 20px;           // 特大字体
+@font-size-xxxl: 24px;          // 标题字体
+
+@line-height-base: 1.5715;      // 基础行高
+@line-height-tight: 1.2;        // 紧凑行高
+@line-height-loose: 1.8;        // 宽松行高
+
+@font-weight-normal: 400;       // 正常字重
+@font-weight-medium: 500;       // 中等字重
+@font-weight-bold: 600;         // 粗体字重
+
+// =========================
+// 间距变量 (Spacing Variables)
+// =========================
+@spacing-xs: 4px;               // 超小间距
+@spacing-sm: 8px;               // 小间距
+@spacing-md: 12px;              // 中间距
+@spacing-lg: 16px;              // 大间距
+@spacing-xl: 20px;              // 超大间距
+@spacing-xxl: 24px;             // 特大间距
+@spacing-xxxl: 32px;            // 巨大间距
+
+// 内边距 (Padding)
+@padding-xs: @spacing-xs;
+@padding-sm: @spacing-sm;
+@padding-md: @spacing-md;
+@padding-lg: @spacing-lg;
+@padding-xl: @spacing-xl;
+
+// 外边距 (Margin)
+@margin-xs: @spacing-xs;
+@margin-sm: @spacing-sm;
+@margin-md: @spacing-md;
+@margin-lg: @spacing-lg;
+@margin-xl: @spacing-xl;
+
+// =========================
+// 边框变量 (Border Variables)
+// =========================
+@border-width: 1px;             // 边框宽度
+@border-style: solid;           // 边框样式
+@border-color: @gray-4;         // 边框颜色
+@border-radius-sm: 4px;         // 小圆角
+@border-radius-md: 6px;         // 中圆角
+@border-radius-lg: 8px;         // 大圆角
+@border-radius-xl: 12px;        // 超大圆角
+@border-radius-circle: 50%;     // 圆形
+
+// =========================
+// 阴影变量 (Shadow Variables)
+// =========================
+@shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);           // 小阴影
+@shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);        // 中阴影
+@shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);      // 大阴影
+@shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);      // 超大阴影
+
+// =========================
+// 响应式断点 (Breakpoints)
+// =========================
+@screen-xs: 480px;              // 超小屏幕 (手机竖屏)
+@screen-sm: 576px;              // 小屏幕 (手机横屏)
+@screen-md: 768px;              // 中等屏幕 (平板)
+@screen-lg: 992px;              // 大屏幕 (小桌面)
+@screen-xl: 1200px;             // 超大屏幕 (桌面)
+@screen-xxl: 1600px;            // 特大屏幕
+
+// =========================
+// 移动端专用变量 (Mobile Variables)
+// =========================
+@mobile-header-height: 44px;    // 移动端头部高度
+@mobile-tabbar-height: 50px;    // 移动端底部导航高度
+@mobile-safe-area-bottom: env(safe-area-inset-bottom); // 安全区域
+
+// =========================
+// 动画变量 (Animation Variables)
+// =========================
+@animation-duration-fast: 0.15s;    // 快速动画
+@animation-duration-base: 0.3s;     // 基础动画
+@animation-duration-slow: 0.5s;     // 慢速动画
+
+@transition-ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1); // 缓入缓出
+@transition-ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);      // 缓出
+@transition-ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);    // 缓入
+
+// =========================
+// Z轴层级 (Z-Index Layers)
+// =========================
+@z-index-dropdown: 1050;        // 下拉菜单
+@z-index-modal: 1060;           // 模态框
+@z-index-popover: 1070;         // 气泡卡片
+@z-index-tooltip: 1080;         // 文字提示
+@z-index-notification: 1090;    // 通知提醒
+@z-index-loading: 2000;          // 加载动画 (最高层级)

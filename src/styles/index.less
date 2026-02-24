@@ -1,0 +1,249 @@
+/* reset.css */
+@import "https://unpkg.com/@uiw/reset.css/reset.less";
+@import './variables.less'; // 导入全局变量
+.border-1px {
+  position: relative;
+}
+.border-1px::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ddd;
+  transform: scaleY(0.5);
+  transform-origin: 0 0;
+}
+
+.padding10{
+  padding: 10px;
+}
+.paddingTop15{
+  padding-top: 15px;
+}
+.padding20{
+  padding: 20px;
+}
+.paddingTop10{
+  padding-top: 10px;
+}
+.marginTop{
+  margin-top: 10px;
+}
+.marginTop20{
+  margin-top: 20px;
+}
+.marginTop15{
+  margin-top: 15px;
+}
+
+.marginBottom20{
+  margin-bottom: 20px;
+}
+.marginBottom15{
+  margin-bottom: 15px;
+}
+.marginBottom10{
+  margin-bottom: 10px;
+}
+.right{
+  text-align: right;
+}
+
+.marginLeft5{
+  margin-left: 5px;
+}
+.marginLeft10{
+  margin-left: 10px;
+}
+.marginRight5{
+  margin-right: 5px;
+}
+.marginRight10{
+  margin-right: 10px;
+}
+.left{
+  text-align: left;
+}
+.detailButton{
+  background-color: #eff6fe ;
+  border-radius: 20px;
+  color: #448AFF;
+  border: none;
+}
+.selectedButton{
+  background-color: #FFEBDC;
+  border-radius: 20px;
+  color: #FF8E32;
+  border: none;
+}
+.white{
+  color: @gray-1;
+}
+.fontSize12{
+  font-size: 12px;
+}
+.fontSize15{
+  font-size: 15px;
+}
+.fontSize18{
+  font-size: 18px;
+}
+.fontSize24{
+  font-size: 24px;
+}
+.fontSize32{
+  font-size: 32px;
+}
+.fontSize36{
+  font-size: 36px;
+}
+
+.fontbold{
+  font-weight: bold;
+}
+
+.grayBackgroundColor{
+  background-color: @gray-3;
+}
+.fontColorGary{
+  color:@gray-7;
+}
+.fullScreen{
+  width: 100%;
+  height: 100vh;
+}
+
+.card{
+  background-color: white;
+  border-radius: 8px;
+  margin: 10px;
+  .cardContent{
+    padding: 10px;
+    
+  }
+}
+
+.flexCenter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .textAlign{
+    text-align: center;
+  }
+}
+
+
+
+.gradientColorYellow{
+  background: linear-gradient(to bottom, #FBEBDD, #FCF6EC)
+}
+
+
+.gradientColorRed{
+  background: linear-gradient(to bottom, #F88A71, #FD6453)
+}
+
+.gradientColorBlue{
+  background: linear-gradient(to bottom, #92C0F2, #4B8AFE)
+}
+
+.fontColorWhite{
+  color:white
+}
+.fontColorOrange{
+  color:#F76316
+}
+
+.borderRadius10{
+  border-radius: 10px;
+}
+
+
+.cocoa-bg-blue_light{
+  background-color: lighten(#1677ff, 30% )
+}
+.cocoa-bg-yellow_light{
+  background-color: lighten(#F19353, 30% )
+}
+.cocoa-bg-blue{
+  background-color: #1677ff
+}
+.cocoa-bg-yellow{
+  background-color:#F19353
+}
+.daibanIconBox{
+  color: #fff;
+  width: 40px;
+  display: block;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: bold; 
+  display: flex;
+  margin-right: 8px;
+}
+.daibanIcon{
+  color: #fff;
+  width: 30px;
+  display: block;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: bold;
+  margin: auto;
+}
+.textAlignCenter{
+  text-align: center;
+}
+.marginTop3{
+  margin-top: 3px;
+}
+.marginLeft3{
+  margin-left: 3px;
+}
+.marginRight3{
+  margin-right: 3px;
+}
+
+.marginBottom3{
+  margin-bottom: 3px;
+}
+
+.marginTop6{
+  margin-top: 6px;
+}
+.marginLeft6{
+  margin-left: 6px;
+}
+.marginRight6{
+  margin-right: 6px;
+}
+.marginRight10{
+  margin-right: 10px;
+}
+.marginBottom6{
+  margin-bottom: 6px;
+}
+
+
+.adm-pull-to-refresh {
+  touch-action: none !important;
+}
+
+.flex{
+  display: flex;
+}
+
+.alignItemsCenter{
+  align-items: center;
+}
+
+.flex1{
+  flex:1
+}

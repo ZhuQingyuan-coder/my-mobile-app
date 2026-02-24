@@ -1,0 +1,42 @@
+// src/components/AnimatedOutlet.module.less
+@import "./variables.less";
+
+.loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9); // 半透明白色背景
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; // 确保在最上层
+  //backdrop-filter: blur(2px); // 背景模糊效果（可选）
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid @primary-color-dark; // 使用全局主色
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  
+  // 移动端适配尺寸
+  @media screen and (max-width: 768px) {
+    width: 32px;
+    height: 32px;
+    border-width: 2px;
+  }
+}
+
+// 旋转动画
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
