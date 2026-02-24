@@ -66,13 +66,14 @@ export default function Porder() {
     const [totalRecords, setTotalRecords] = useState(0)
     const [loading, setLoading] = useState(false); // 加载状态锁 暂时没用，如果有需求可以用于添加加载动画
     const [modelVisible, setModelVisible] = useState(false)
-    const selectedTemplateInfo = JSON.parse(sessionStorage.getItem('selectedTemplateInfo'))||{}
-    const orignRouteSet = new Set(['/templateDetail','/templateChoose'])
+    const selectedTemplateInfo = JSON.parse(sessionStorage.getItem('selectedTemplateInfo')) || {}
+    const orignRouteSet = new Set(['/templateDetail', '/templateChoose'])
+    const modalOnceShow = useRef(true)
     const [modelRequestInfo, setModelRequestInfo] = useState({
-        modelTemplateNo: selectedTemplateInfo?.pTemplateNo||'',
-        modelTemplateName: selectedTemplateInfo?.pTemplateName||'',
-        modelRequestDate: JSON.parse(sessionStorage.getItem('modelRequestDate'))||defaultRangeEnd.format('YYYY-MM-DD'),
-        memo: '',
+        modelTemplateNo: selectedTemplateInfo?.pTemplateNo || '',
+        modelTemplateName: selectedTemplateInfo?.pTemplateName || '',
+        modelRequestDate: JSON.parse(sessionStorage.getItem('modelRequestDate')) || defaultRangeEnd.format('YYYY-MM-DD'),
+        // memo: '',
     })
 
     const params = {
@@ -117,8 +118,15 @@ export default function Porder() {
             setTotalRecords(append.totalRecords)
         }
         setPorderList(val => [...val, ...append.data])
-        console.log(append.data.length, 'append..length')
         setHasMore(append.data.length > 0)
+        setTimeout(() => { //强行控制为下一个渲染周期进行渲染
+            if (modalOnceShow.current) { //保证只在从模板选择界面返回的时候渲染一次模态框 ，正常切换的时候不显示
+                if (orignRouteSet.has(location.state?.from)) {
+                    setModelVisible(true)
+                    modalOnceShow.current = false
+                }
+            }
+        }, 0)
     }
     const back = () => {
         navigate('/menu/application')
@@ -217,11 +225,15 @@ export default function Porder() {
     }
     //模板要货弹框确定回调
     const modelEnsure = () => {
-        if(modelRequestInfo.modelTemplateNo == ''){
+        if (modelRequestInfo.modelTemplateNo == '') {
             Toast.show('请选择模板!');
-            return 
+            return
         }
-        navigate('/templateDetail')
+        navigate('/templateDetail', {
+            state: {
+                from: 'p_order'
+            }
+        })
     }
     //弹框需求日期调整触发的回调
     const modelRequestDateChange = (value) => {
@@ -229,15 +241,15 @@ export default function Porder() {
             ...modelRequestInfo,
             modelRequestDate: dayjs(value).format('YYYY-MM-DD')
         })
-        sessionStorage.setItem('modelRequestDate',JSON.stringify(dayjs(value).format('YYYY-MM-DD')))
+        sessionStorage.setItem('modelRequestDate', JSON.stringify(dayjs(value).format('YYYY-MM-DD')))
     }
     //备注改变触发的回调
-    const handleMemoChange = (value) => {
-        setModelRequestInfo({
-            ...modelRequestInfo,
-            memo: value
-        })
-    }
+    // const handleMemoChange = (value) => {
+    //     setModelRequestInfo({
+    //         ...modelRequestInfo,
+    //         memo: value
+    //     })
+    // }
     //弹框选择模板
     const chooseTemplate = () => {
         navigate('/templateChoose')
@@ -254,15 +266,6 @@ export default function Porder() {
         setHasMore(true)
         setPageNumber(1)
     }, [activeKey])
-    useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-            return;
-        }
-        if (orignRouteSet.has(location.state?.from) && porderList.length>0 ) {//优化用户体验 保证先渲染列表再打开弹框，避免闪现问题 
-            setModelVisible(true)
-        }
-    },[location.state?.from,porderList])
     return <>
         <NavBar right={right} onBack={back}>
             要货单
@@ -412,7 +415,7 @@ export default function Porder() {
                     新增要货单
                 </div>
                 <List>
-                    <List.Item extra={modelRequestInfo.modelTemplateName === '' ? '请选择(必选)': modelRequestInfo.modelTemplateName} clickable onClick={chooseTemplate}>
+                    <List.Item extra={modelRequestInfo.modelTemplateName === '' ? '请选择(必选)' : modelRequestInfo.modelTemplateName} clickable onClick={chooseTemplate}>
                         <span className="fontbold fontSize18">
                             要货模板
                         </span>
@@ -422,7 +425,7 @@ export default function Porder() {
                             需求日期
                         </span>
                     </List.Item>
-                    <List.Item extra={<Input
+                    {/* <List.Item extra={<Input
                         placeholder='备注'
                         style={{ '--text-align': 'right' }}
                         clearable
@@ -432,23 +435,23 @@ export default function Porder() {
                         <span className="fontbold fontSize18">
                             备注
                         </span>
-                    </List.Item>
+                    </List.Item> */}
 
                 </List>
                 <div className="marginTop">
                     <Space justify='center' block style={{ '--gap': '64px' }}>
-                        <Button  shape='default' onClick={() => { 
+                        <Button shape='default' onClick={() => {
                             setModelVisible(false);
                             setModelRequestInfo({
-                                modelTemplateNo:'',
-                                modelTemplateName:'',
-                                modelRequestDate:defaultRangeEnd.format('YYYY-MM-DD'),
-                                memo:''
+                                modelTemplateNo: '',
+                                modelTemplateName: '',
+                                modelRequestDate: defaultRangeEnd.format('YYYY-MM-DD'),
+                                // memo: ''
                             })
                             sessionStorage.removeItem('modelRequestDate')
                             sessionStorage.removeItem('selectedTemplateInfo')
-                            }}>取消</Button>
-                        <Button  shape='default' color='primary' onClick={modelEnsure}>确定</Button>
+                        }}>取消</Button>
+                        <Button shape='default' color='primary' onClick={modelEnsure}>确定</Button>
                     </Space>
 
                 </div>

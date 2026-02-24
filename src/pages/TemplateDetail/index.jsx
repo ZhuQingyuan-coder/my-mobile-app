@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useLocation} from "react-router-dom";
 import templateDetailRequset from "../../api/templateDetail";
 import { SearchOutline, ScanningOutline, PayCircleOutline } from 'antd-mobile-icons';
 import { Space, NavBar, List, Grid, Stepper, Input, Button, Toast } from 'antd-mobile';
@@ -6,21 +6,24 @@ import { useEffect, useMemo, useState } from "react";
 import hot from '../../assets/images/hot.png';
 import defaultGoodsImage from '../../assets/images/goods-img.png';
 import './index.less'
+
+const moneyNumberClassName = "fontSize15 fontbold fontColorOrange"
 export default function TemplateDetail() {
+    const location = useLocation()
     const [templateGoodsList, setTemplateGoodsList] = useState([])
     const templateDetail = JSON.parse(sessionStorage.getItem('selectedTemplateInfo'))
-    const caulculateTotalPrice = () => {
-        return templateGoodsList.reduce((acc,cur)=>{
-            return acc + (cur.pqty * cur.price)
-        },0)
-    }
-    const totalPrice = useMemo(caulculateTotalPrice,[templateGoodsList])
+    // const caulculateTotalPrice = () => {
+    //     return templateGoodsList.reduce((acc,cur)=>{
+    //         return acc + (cur.pqty * cur.price)
+    //     },0)
+    // }
+    // const totalPrice = useMemo(caulculateTotalPrice,[templateGoodsList])
     const caulculateTotalDistriPrice = () => {
         return templateGoodsList.reduce((acc,cur)=>{
-            return acc + (cur.pqty * cur.distriPrice)
+            return acc + (cur.pqty * cur.supPrice)
         },0)
     }
-    const distriPrice = useMemo(caulculateTotalDistriPrice,[templateGoodsList])
+    const supTotalPrice = useMemo(caulculateTotalDistriPrice,[templateGoodsList])
 
     const navigate = useNavigate()
     const right = (
@@ -50,8 +53,10 @@ export default function TemplateDetail() {
             })
             )
         }
+
     }
     const back = () => {
+        sessionStorage.removeItem('templateGoodsList')
         navigate('/p_order', { state: { from: '/templateDetail' } })
     }
     const getTemplateDetail = async () => {
@@ -84,20 +89,30 @@ export default function TemplateDetail() {
             Toast.show('要货量不可以全部为0')
             return;
         }
-        const requestGoods = templateGoodsList.map(item=>{
-            if(item.pqty !== 0){
-                return item
-            }
+        const requestGoods = templateGoodsList.filter(item=>{
+            return item.pqty !== 0
         })
+        //session存储要货信息
+        sessionStorage.setItem('templateGoodsList',JSON.stringify(templateGoodsList))
        //不存在直接跳转
-       navigate('/p_order_confirm',{
+       navigate('/porderConfirm',{
             state:{
                 requestGoods
             }
        })
     }
     useEffect(() => {
-        getTemplateDetail()
+        if(location.state?.from !== 'porderConfirm' && location.state?.from !== 'p_order'){
+            navigate('/menu')
+        }
+
+        if(location.state?.from == 'porderConfirm'){
+            //如果是从
+            setTemplateGoodsList(JSON.parse(sessionStorage.getItem('templateGoodsList')))
+        }else{
+            getTemplateDetail()
+        }
+        
     }, [])
     return <>
         <NavBar right={right} onBack={back}>
@@ -115,41 +130,44 @@ export default function TemplateDetail() {
         <div className="footer">
             <Button shape='rounded' color='primary' style={{ width: 100 }} onClick={handleClick}>已选好</Button>
             <div className="marginRight10 fontSize15">
-                <div>零售总价:<PayCircleOutline />{totalPrice}</div>
-                <div>进货总价:<PayCircleOutline />{distriPrice}</div>
+                {/* <div>零售总价:<PayCircleOutline />{totalPrice}</div> */}
+                <div>标准供货总价:
+                    <span className={moneyNumberClassName}>
+                        <PayCircleOutline />{supTotalPrice}
+                    </span>
+                </div>
             </div>
         </div>
     </>
 }
 
 function TemplateGoodsItem({ goodsItem, handleChange }) {
-    const { distriPrice, pluName, pluNo, price, punitName, mulQty, listImage, maxQty, isHotGoods, isNewGoods, defQty, minQty, pqty } = goodsItem
-    const moneyNumberClassName = "fontSize15 fontbold fontColorOrange"
+    const { supPrice, pluName, pluNo, spec,supplierName, pUnitName, mulQty, listImage, maxQty, isHotGoods, isNewGoods, defQty, minQty, pqty } = goodsItem
     return <>
         <div className="padding10">
             <div style={{ display: 'flex' }} >
                 <img src={listImage ? listImage : defaultGoodsImage} alt="" style={{ width: 50, height: 50 }} className="marginRight10" />
                 <div style={{ flex: 1 }}>
                     <div className="fontbold fontSize15">
-                        {pluName}
+                        商品名称:{pluName} 规格:{spec}
                         <img src={isHotGoods == 'Y' ? hot : null} alt="" className="marginLeft10" />
                     </div>
                     <div className="fontColorGary fontSize15">
-                        {pluNo} 最大:{maxQty} 倍量:{mulQty}
+                        品号:{pluNo} 最大要货:{maxQty} 倍量:{mulQty}
                     </div>
                 </div>
 
             </div>
             <div className="marginTop">
-                <Grid columns={2} gap={8} >
+                <Grid columns={2} gap={8} >  
                     <Grid.Item>
                         <div className="fontColorGary">
-                            零售价: <span className={moneyNumberClassName}><PayCircleOutline />{price}</span>/{punitName}
+                            标准供货价: <span className={moneyNumberClassName}><PayCircleOutline />{supPrice}</span>/{pUnitName}
                         </div>
                     </Grid.Item>
                     <Grid.Item>
                         <div className="fontColorGary">
-                            进货价: <span className={moneyNumberClassName}><PayCircleOutline />{distriPrice}</span>/{punitName}
+                            供货商: {supplierName}
                         </div>
                     </Grid.Item>
                 </Grid>
@@ -164,14 +182,12 @@ function TemplateGoodsItem({ goodsItem, handleChange }) {
                             onChange={(value) => { handleChange(value, goodsItem, mulQty) }} />
                     </div>
                     <div className="flex1">
-                        单位: {punitName}
+                        单位: {pUnitName}
                     </div>
                 </div>
             </div>
         </div>
-
     </>
-
 }
 
 
